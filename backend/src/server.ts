@@ -1,13 +1,11 @@
 import express, { json } from 'express';
+import routes from './routes.ts';
 
 import './database/connection';
 const app = express();
 
 app.use(json());
-
-app.get('/users', (request, response) => {
-  return response.json({ message: 'Hello World' });
-});
+app.use(routes);
 
 // app.post('/users/:id', (request, response) => {
 //   console.log(request.query);
