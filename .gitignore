@@ -2,3 +2,18 @@ backend/node_modules
 videos/
 backend/uploads/*
 !backend/uploads/.gitkeep
+
+
+mobile/node_modules/**/*
+mobile/.expo/*
+mobile/npm-debug.*
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+*.orig.*
+mobile/web-build/
+
+# macOS
+mobile/.DS_Store
