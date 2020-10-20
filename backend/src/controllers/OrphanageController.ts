@@ -57,7 +57,7 @@ export default {
     };
 
     const schema = Yup.object().shape({
-      name: Yup.string().required(),
+      name: Yup.string().required('Nome obrigatório'),
       latitude: Yup.number().required(),
       longitude: Yup.number().required(),
       about: Yup.string().required().max(300),
@@ -71,9 +71,7 @@ export default {
       ),
     });
 
-    await schema.validate(data,
-      {abortEarly: false,
-    });
+    await schema.validate(data, { abortEarly: false });
 
     const orphanage = orphanagesRepository.create(data);
 
