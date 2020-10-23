@@ -5,7 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 import { RectButton } from 'react-native-gesture-handler';
 import MapView, { Marker } from 'react-native-maps';
 
-import mapMarkerImg from '../../images/map-marker.png';
+import mapMarkerImg from '../../assets/mapmarker.png';
 
 export default function SelectMapPosition() {
   const navigation = useNavigation();
@@ -16,16 +16,15 @@ export default function SelectMapPosition() {
 
   return (
     <View style={styles.container}>
-      <MapView 
+      <MapView
         initialRegion={{
           latitude: -27.2092052,
           longitude: -49.6401092,
           latitudeDelta: 0.008,
           longitudeDelta: 0.008,
         }}
-        style={styles.mapStyle}
-      >
-        <Marker 
+        style={styles.mapStyle}>
+        <Marker
           icon={mapMarkerImg}
           coordinate={{ latitude: -27.2092052, longitude: -49.6401092 }}
         />
@@ -35,13 +34,13 @@ export default function SelectMapPosition() {
         <Text style={styles.nextButtonText}>Próximo</Text>
       </RectButton>
     </View>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    position: 'relative'
+    position: 'relative',
   },
 
   mapStyle: {
@@ -63,8 +62,8 @@ const styles = StyleSheet.create({
   },
 
   nextButtonText: {
-    fontFamily: 'Nunito_800ExtraBold',
+    fontFamily: 'nunito800',
     fontSize: 16,
     color: '#FFF',
-  }
-})
+  },
+});
