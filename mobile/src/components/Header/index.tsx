@@ -6,9 +6,10 @@ import { Feather } from '@expo/vector-icons';
 
 interface HeaderProps {
   title: string;
+  showCancel: boolean;
 }
 
-const Header: React.FC<HeaderProps> = ({ title }) => {
+const Header: React.FC<HeaderProps> = ({ title, showCancel = true }) => {
   const { goBack, navigate } = useNavigation();
   return (
     <View style={styles.container}>
@@ -16,9 +17,13 @@ const Header: React.FC<HeaderProps> = ({ title }) => {
         <Feather name='arrow-left' size={24} color='#15b5d6' />
       </BorderlessButton>
       <Text style={styles.title}>{title}</Text>
-      <BorderlessButton onPress={() => navigate('OrphanagesMap')}>
-        <Feather name='x' size={24} color='#15b5d6' />
-      </BorderlessButton>
+      {showCancel ? (
+        <BorderlessButton onPress={() => navigate('OrphanagesMap')}>
+          <Feather name='x' size={24} color='#15b5d6' />
+        </BorderlessButton>
+      ) : (
+        <View></View>
+      )}
     </View>
   );
 };

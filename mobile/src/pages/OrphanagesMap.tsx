@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
   Dimensions,
   StyleSheet,
@@ -13,9 +13,18 @@ import { Feather } from '@expo/vector-icons';
 import mapMarker from '../assets/mapmarker.png';
 import { useNavigation } from '@react-navigation/native';
 import { RectButton } from 'react-native-gesture-handler';
+import api from '../services/api';
+import { OrphanageProps } from './types';
 
 export default function OrphanagesMap() {
+  const [orphanages, setOrphanages] = useState<OrphanageProps[]>([]);
   const { navigate } = useNavigation();
+
+  useEffect(() => {
+    api.get('orphanages').then(({ data }) => {
+      setOrphanages(data);
+    });
+  }, []);
 
   const navigateToDetails = useCallback(() => {
     navigate('OrphanageDetails');
@@ -35,19 +44,22 @@ export default function OrphanagesMap() {
           latitudeDelta: 0.008,
           longitudeDelta: 0.008,
         }}>
-        <Marker
-          icon={mapMarker}
-          calloutAnchor={{
-            x: 2.7,
-            y: 0.8,
-          }}
-          coordinate={{ latitude: -26.8126124, longitude: -49.272274 }}>
-          <Callout tooltip onPress={() => navigateToDetails()}>
-            <View style={styles.calloutContainer}>
-              <Text style={styles.calloutText}>Lar das meninas</Text>
-            </View>
-          </Callout>
-        </Marker>
+        {orphanages.map(({ id, latitude, longitude, name }) => (
+          <Marker
+            key={id}
+            icon={mapMarker}
+            calloutAnchor={{
+              x: 2.7,
+              y: 0.8,
+            }}
+            coordinate={{ latitude, longitude }}>
+            <Callout tooltip onPress={() => navigateToDetails()}>
+              <View style={styles.calloutContainer}>
+                <Text style={styles.calloutText}>{name}</Text>
+              </View>
+            </Callout>
+          </Marker>
+        ))}
       </MapView>
       <View style={styles.footer}>
         <Text style={styles.footerText}>2 orfanatos encontrados</Text>
