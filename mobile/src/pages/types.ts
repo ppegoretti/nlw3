@@ -12,3 +12,7 @@ export interface OrphanageProps {
     url: string;
   }[];
 }
+
+export interface OrphanageDetailsRouteParams {
+  id: number;
+  };

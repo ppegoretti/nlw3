@@ -26,8 +26,8 @@ export default function OrphanagesMap() {
     });
   }, []);
 
-  const navigateToDetails = useCallback(() => {
-    navigate('OrphanageDetails');
+  const navigateToDetails = useCallback((id: number) => {
+    navigate('OrphanageDetails', { id });
   }, []);
 
   const navigateToCreate = useCallback(() => {
@@ -53,7 +53,7 @@ export default function OrphanagesMap() {
               y: 0.8,
             }}
             coordinate={{ latitude, longitude }}>
-            <Callout tooltip onPress={() => navigateToDetails()}>
+            <Callout tooltip onPress={() => navigateToDetails(id)}>
               <View style={styles.calloutContainer}>
                 <Text style={styles.calloutText}>{name}</Text>
               </View>
@@ -62,7 +62,9 @@ export default function OrphanagesMap() {
         ))}
       </MapView>
       <View style={styles.footer}>
-        <Text style={styles.footerText}>2 orfanatos encontrados</Text>
+        <Text style={styles.footerText}>
+          {orphanages.length} orfanatos encontrados
+        </Text>
         <RectButton
           style={styles.creteOrphanageButton}
           onPress={navigateToCreate}>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Image,
   View,
@@ -12,8 +12,32 @@ import { Feather, FontAwesome } from '@expo/vector-icons';
 
 import mapMarkerImg from '../assets/mapmarker.png';
 import { RectButton } from 'react-native-gesture-handler';
+import { useRoute } from '@react-navigation/native';
+import { OrphanageDetailsRouteParams, OrphanageProps } from './types';
+import api from '../services/api';
 
 export default function OrphanageDetails() {
+  const { params } = useRoute();
+  const [orphanage, setOrphanage] = useState<OrphanageProps>();
+
+  const id = params as OrphanageDetailsRouteParams;
+
+  useEffect(() => {
+    api.get(`orphanages/${id}`).then(({ data }) => {
+      setOrphanage(data);
+    });
+  }, [id]);
+
+  console.log(orphanage, params);
+
+  if (!orphanage) {
+    return (
+      <View style={styles.container}>
+        <Text style={styles.description}>Carregando....</Text>
+      </View>
+    );
+  }
+
   return (
     <ScrollView style={styles.container}>
       <View style={styles.imagesContainer}>
