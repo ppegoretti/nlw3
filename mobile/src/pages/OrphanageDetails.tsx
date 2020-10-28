@@ -20,7 +20,7 @@ export default function OrphanageDetails() {
   const { params } = useRoute();
   const [orphanage, setOrphanage] = useState<OrphanageProps>();
 
-  const id = params as OrphanageDetailsRouteParams;
+  const { id } = params as OrphanageDetailsRouteParams;
 
   useEffect(() => {
     api.get(`orphanages/${id}`).then(({ data }) => {
@@ -42,39 +42,27 @@ export default function OrphanageDetails() {
     <ScrollView style={styles.container}>
       <View style={styles.imagesContainer}>
         <ScrollView horizontal pagingEnabled>
-          <Image
-            style={styles.image}
-            source={{
-              uri: 'https://fmnova.com.br/images/noticias/safe_image.jpg',
-            }}
-          />
-          <Image
-            style={styles.image}
-            source={{
-              uri: 'https://fmnova.com.br/images/noticias/safe_image.jpg',
-            }}
-          />
-          <Image
-            style={styles.image}
-            source={{
-              uri: 'https://fmnova.com.br/images/noticias/safe_image.jpg',
-            }}
-          />
+          {orphanage.images.map(({ id, url }) => (
+            <Image
+              style={styles.image}
+              key={id}
+              source={{
+                uri: url,
+              }}
+            />
+          ))}
         </ScrollView>
       </View>
 
       <View style={styles.detailsContainer}>
-        <Text style={styles.title}>Orf. Esperança</Text>
-        <Text style={styles.description}>
-          Presta assistência a crianças de 06 a 15 anos que se encontre em
-          situação de risco e/ou vulnerabilidade social.
-        </Text>
+        <Text style={styles.title}>{orphanage.name}</Text>
+        <Text style={styles.description}>{orphanage.about}</Text>
 
         <View style={styles.mapContainer}>
           <MapView
             initialRegion={{
-              latitude: -27.2092052,
-              longitude: -49.6401092,
+              latitude: orphanage.latitude,
+              longitude: orphanage.longitude,
               latitudeDelta: 0.008,
               longitudeDelta: 0.008,
             }}
@@ -86,8 +74,8 @@ export default function OrphanageDetails() {
             <Marker
               icon={mapMarkerImg}
               coordinate={{
-                latitude: -27.2092052,
-                longitude: -49.6401092,
+                latitude: orphanage.latitude,
+                longitude: orphanage.longitude,
               }}
             />
           </MapView>
@@ -100,24 +88,31 @@ export default function OrphanageDetails() {
         <View style={styles.separator} />
 
         <Text style={styles.title}>Instruções para visita</Text>
-        <Text style={styles.description}>
-          Venha como se sentir a vontade e traga muito amor e paciência para
-          dar.
-        </Text>
+        <Text style={styles.description}>{orphanage.instructions}</Text>
 
         <View style={styles.scheduleContainer}>
           <View style={[styles.scheduleItem, styles.scheduleItemBlue]}>
             <Feather name='clock' size={40} color='#2AB5D1' />
             <Text style={[styles.scheduleText, styles.scheduleTextBlue]}>
-              Segunda à Sexta 8h às 18h
+              {orphanage.opening_hours}
             </Text>
           </View>
-          <View style={[styles.scheduleItem, styles.scheduleItemGreen]}>
-            <Feather name='info' size={40} color='#39CC83' />
-            <Text style={[styles.scheduleText, styles.scheduleTextGreen]}>
-              Atendemos fim de semana
-            </Text>
-          </View>
+          {orphanage.open_on_weekends ? (
+            <View style={[styles.scheduleItem, styles.scheduleItemGreen]}>
+              <Feather name='info' size={40} color='#39CC83' />
+              <Text style={[styles.scheduleText, styles.scheduleTextGreen]}>
+                Atendemos fim de semana!
+              </Text>
+            </View>
+          ) : (
+            <View style={[styles.scheduleItem, styles.scheduleItemGreen]}>
+              <Feather name='info' size={40} color='#39CC83' />
+              <Text style={[styles.scheduleText, styles.scheduleTextGreen]}>
+                Não atendemos fim de semana!
+              </Text>
+            </View>
+          )}
+          ;
         </View>
 
         <RectButton style={styles.contactButton} onPress={() => {}}>
@@ -212,6 +207,13 @@ const styles = StyleSheet.create({
   },
 
   scheduleItemGreen: {
+    backgroundColor: '#EDFFF6',
+    borderWidth: 1,
+    borderColor: '#A1E9C5',
+    borderRadius: 20,
+  },
+
+  scheduleItemRed: {
     backgroundColor: '#EDFFF6',
     borderWidth: 1,
     borderColor: '#A1E9C5',
