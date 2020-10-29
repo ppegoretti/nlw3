@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
   Image,
   View,
@@ -6,12 +6,13 @@ import {
   Text,
   StyleSheet,
   Dimensions,
+  Linking,
 } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import { Feather, FontAwesome } from '@expo/vector-icons';
 
 import mapMarkerImg from '../assets/mapmarker.png';
-import { RectButton } from 'react-native-gesture-handler';
+import { RectButton, TouchableOpacity } from 'react-native-gesture-handler';
 import { useRoute } from '@react-navigation/native';
 import { OrphanageDetailsRouteParams, OrphanageProps } from './types';
 import api from '../services/api';
@@ -28,7 +29,11 @@ export default function OrphanageDetails() {
     });
   }, [id]);
 
-  console.log(orphanage, params);
+  const handleOpenGoogleMapsRoutes = useCallback(() => {
+    Linking.openURL(
+      `https://www.google.com/maps/dir/?api=1&destination=${orphanage?.latitude},${orphanage?.longitude}`,
+    );
+  }, []);
 
   if (!orphanage) {
     return (
@@ -80,9 +85,11 @@ export default function OrphanageDetails() {
             />
           </MapView>
 
-          <View style={styles.routesContainer}>
+          <TouchableOpacity
+            onPress={handleOpenGoogleMapsRoutes}
+            style={styles.routesContainer}>
             <Text style={styles.routesText}>Ver rotas no Google Maps</Text>
-          </View>
+          </TouchableOpacity>
         </View>
 
         <View style={styles.separator} />
@@ -105,14 +112,13 @@ export default function OrphanageDetails() {
               </Text>
             </View>
           ) : (
-            <View style={[styles.scheduleItem, styles.scheduleItemGreen]}>
-              <Feather name='info' size={40} color='#39CC83' />
-              <Text style={[styles.scheduleText, styles.scheduleTextGreen]}>
+            <View style={[styles.scheduleItem, styles.scheduleItemRed]}>
+              <Feather name='info' size={40} color='#ff669d' />
+              <Text style={[styles.scheduleText, styles.scheduleTextRed]}>
                 Não atendemos fim de semana!
               </Text>
             </View>
           )}
-          ;
         </View>
 
         <RectButton style={styles.contactButton} onPress={() => {}}>
@@ -216,7 +222,7 @@ const styles = StyleSheet.create({
   scheduleItemRed: {
     backgroundColor: '#EDFFF6',
     borderWidth: 1,
-    borderColor: '#A1E9C5',
+    borderColor: '#ffbcd4',
     borderRadius: 20,
   },
 
@@ -233,6 +239,10 @@ const styles = StyleSheet.create({
 
   scheduleTextGreen: {
     color: '#37C77F',
+  },
+
+  scheduleTextRed: {
+    color: '#ff669d',
   },
 
   contactButton: {
