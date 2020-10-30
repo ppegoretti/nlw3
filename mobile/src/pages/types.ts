@@ -16,3 +16,10 @@ export interface OrphanageProps {
 export interface OrphanageDetailsRouteParams {
   id: number;
   };
+
+export interface OrphanageDataRouteParams {
+  position: {
+    latitude: number;
+    longitude: number;
+  }
+}
