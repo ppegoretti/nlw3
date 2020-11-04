@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import {
   Dimensions,
   StyleSheet,
@@ -11,7 +11,7 @@ import MapView, { Callout, Marker } from 'react-native-maps';
 import { Feather } from '@expo/vector-icons';
 
 import mapMarker from '../assets/mapmarker.png';
-import { useNavigation } from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { RectButton } from 'react-native-gesture-handler';
 import api from '../services/api';
 import { OrphanageProps } from './types';
@@ -20,11 +20,21 @@ export default function OrphanagesMap() {
   const [orphanages, setOrphanages] = useState<OrphanageProps[]>([]);
   const { navigate } = useNavigation();
 
-  useEffect(() => {
-    api.get('orphanages').then(({ data }) => {
-      setOrphanages(data);
-    });
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      let loadingData = true;
+      const loadOrphanages = async () => {
+        const { data } = await api.get('orphanages');
+        if (loadingData) {
+          setOrphanages(data);
+        }
+      };
+      loadOrphanages();
+      return () => {
+        loadingData = false;
+      };
+    }, []),
+  );
 
   const navigateToDetails = useCallback((id: number) => {
     navigate('OrphanageDetails', { id });

@@ -51,7 +51,16 @@ export default function OrphanageData() {
     await api.post('orphanages', data);
     console.log('CADASTRADO!');
     navigate('OrphanagesMap');
-  }, []);
+  }, [
+    about,
+    images,
+    instructions,
+    name,
+    navigate,
+    open_on_weekends,
+    opening_hours,
+    position,
+  ]);
 
   const selectImages = useCallback(async () => {
     const { status } = await ImagePicker.requestCameraRollPermissionsAsync();
