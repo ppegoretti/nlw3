@@ -21,6 +21,8 @@
   align-items: flex-start;
   flex-direction: column;
   justify-content: space-between;
+
+  background: url('../../../public/Ilustra02.svg') no-repeat 80% center;
 }
 
 .page_landing .content_wrapper main {

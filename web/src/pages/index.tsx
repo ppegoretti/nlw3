@@ -1,5 +1,7 @@
 import styles from '../styles/pages/landing.module.css';
 import { FiChevronRight } from 'react-icons/fi';
+import React from 'react';
+import Link from 'next/link';
 
 const Home: React.FC = () => {
   return (
@@ -14,9 +16,11 @@ const Home: React.FC = () => {
           <strong>Rio do Sul</strong>
           <span>Santa Catarina</span>
         </div>
-        <a href='' className={styles.enter_app}>
-          <FiChevronRight size={20} />
-        </a>
+        <Link href='/orphanages-map'>
+          <div className={styles.enter_app}>
+            <FiChevronRight size={26} color='rgba(0, 0, 0, 0.6)' />
+          </div>
+        </Link>
       </div>
     </div>
   );
