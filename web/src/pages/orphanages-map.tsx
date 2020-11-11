@@ -1,7 +1,9 @@
 import styles from '../styles/pages/orphanagesmap.module.css';
+import 'leaflet/dist/leaflet';
 import React from 'react';
 import Link from 'next/link';
 import { FiPlus } from 'react-icons/fi';
+import { MapContainer, TileLayer } from 'react-leaflet';
 
 const OrphanagesMap: React.FC = () => {
   return (
@@ -19,11 +21,15 @@ const OrphanagesMap: React.FC = () => {
           <span>Santa Catarina</span>
         </footer>
       </aside>
-      <div>
+      <MapContainer
+        center={[-26.8126124, -49.272274]}
+        zoom={15}
+        style={{ width: '100%', height: '100%' }}>
+        <TileLayer url='https://a.tile.openstreetmap.org/{z}/{x}/{y}.png'></TileLayer>
+      </MapContainer>
+      <div className={styles.create_orphanages}>
         <Link href='/orphanages-map'>
-          <div className={styles.create_orphanages}>
-            <FiPlus size={26} color='#fff' />
-          </div>
+          <FiPlus size={26} color='#fff' />
         </Link>
       </div>
     </div>

@@ -4,6 +4,7 @@
 
   position: relative;
   display: flex;
+  z-index: 5;
 }
 
 .page_map aside {
@@ -21,4 +22,43 @@
   font-weight: 800;
   line-height: 42px;
   margin-top: 64px;
+}
+
+.page_map aside p {
+  line-height: 28px;
+  margin-top: 24px;
+}
+
+.page_map aside footer {
+  display: flex;
+  flex-direction: column;
+
+  line-height: 24px;
+}
+
+.page_map aside footer strong {
+  font-weight: 800;
+}
+
+.page_map .create_orphanages {
+  position: absolute;
+  z-index: 10;
+  right: 40px;
+  bottom: 40px;
+
+  width: 64px;
+  height: 64px;
+
+  background: #15c3d6;
+  border-radius: 20px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  transition: background-color 0.2s;
+}
+
+.page_map .create_orphanages:hover {
+  background: #16d6eb;
 }
