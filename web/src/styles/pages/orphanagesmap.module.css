@@ -7,6 +7,11 @@
   z-index: 5;
 }
 
+.page_map .maps_container {
+  z-index: 5;
+  display: flex;
+}
+
 .page_map aside {
   width: 440px;
   background: linear-gradient(329.54deg, #29b6d1 0%, #00c7c7 100%);
